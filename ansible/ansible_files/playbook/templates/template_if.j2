@@ -1,0 +1,14 @@
+{% for interface in interface %}
+auto {{ interface.name }}
+iface {{ interface.name }} inet static
+    address {{ interface.address }}
+{% if interface.gateway is defined %}
+    gateway {{ interface.gateway }}
+{% endif %}
+{% if interface.network is defined %}
+{% for network in interface.network %}
+    post-up ip route add {{ network.address }} via {{ network.nexthop }}
+{% endfor %}
+{% endif %}
+
+{% endfor %}

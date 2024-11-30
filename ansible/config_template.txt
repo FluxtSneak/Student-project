@@ -1,0 +1,9 @@
+
+Host {{elem['name']}}
+    User root
+    Hostname {{elem['console_host']}}
+    Port {{elem['console']+1}}
+    StrictHostKeychecking no
+    UserKnownHostsFile /dev/null
+    IdentityFile ~/.ssh/gns3.rsa
+    

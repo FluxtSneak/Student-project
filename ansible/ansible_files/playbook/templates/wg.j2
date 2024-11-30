@@ -1,0 +1,12 @@
+# ansible_managed /etc/wireguard/wg0.conf
+
+# local settings for Host 
+[Interface]
+PrivateKey = {{ tunnel.pvtkey }}
+Address = {{ tunnel.address }}
+ListenPort = {{ tunnel.port }}
+
+[Peer]
+PublicKey = {{ tunnel.peerkey }}
+Endpoint = {{ tunnel.peerendpoint }}
+AllowedIPs = {{ tunnel.peeraddress }}

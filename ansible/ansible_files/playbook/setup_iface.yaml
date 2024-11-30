@@ -1,0 +1,27 @@
+---
+- name: generate interface config file
+  hosts: all
+  tasks:
+    - name: Create file
+      ansible.builtin.template:
+        src: template_if.j2
+        dest: /etc/network/interfaces.d/ansible_managed
+      notify: Restart networking
+#    - name: Set hostname
+#      hostname:
+#        name: "{{ hostname }}"
+
+  handlers:
+  - name: Restart networking
+    systemd: 
+      name: networking
+      state: restarted
+
+- name: Verify configuration
+  hosts: H1
+  tasks: 
+    - name: ping H2 from H1
+      shell:
+        cmd: ping 3.0.0.3 -c 3
+      register: res
+    - debug: var=res.stdout_lines

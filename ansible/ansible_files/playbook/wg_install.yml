@@ -1,0 +1,20 @@
+---
+- name: install wireguard 
+  hosts: hosts
+  tasks:
+    - name: install wireguard
+      apt:
+        name: wireguard
+        update_cache: yes
+
+    - name: install curl
+      apt:
+        name: curl
+        update_cache: yes
+
+- name: install nginx
+  hosts: H2
+  tasks:
+    - name: install nginx
+      apt:
+        name: nginx

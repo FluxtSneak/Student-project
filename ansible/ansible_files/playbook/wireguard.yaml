@@ -1,0 +1,54 @@
+---
+- name: Configure wireguard
+  hosts: hosts
+  tasks:
+    - name: Create config file
+      ansible.builtin.template:
+        src: wg.j2
+        dest: /etc/wireguard/wg0.conf
+        mode: 0600
+      notify: Restart wireguard
+
+    - name: start wireguard and enable on boot
+      systemd:
+        name: wg-quick@wg0
+        enabled: yes
+        state: started
+  
+  handlers:
+  - name: Restart wireguard
+    systemd: 
+      name: wg-quick@wg0
+      state: restarted
+
+- name: config nginx
+  hosts: H2
+  tasks:
+
+    - name: Create html file
+      ansible.builtin.template:
+        src: nginx.j2
+        dest: /var/www/html/index.nginx-debian.html
+
+    - name: Create config file to expose page on 10.0.0.2
+      ansible.builtin.template:
+        src: nginx_config.j2
+        dest: /etc/nginx/sites-available/default
+      notify: restart nginx
+
+
+  handlers: 
+    - name: restart nginx
+      systemd:
+        name: nginx
+        state: restarted
+
+
+- name: Verify conf
+  hosts: H1
+  tasks:
+    - name: Curl content
+      shell:
+        cmd: curl 10.0.0.2
+      register: res
+    - debug: var=res.stdout_lines

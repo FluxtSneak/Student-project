@@ -1,0 +1,10 @@
+---
+hostname: R2
+interface:
+  - name: eth0
+    address: 2.0.0.2/24
+    network:
+      - address: 1.0.0.0/24
+        nexthop: 2.0.0.1
+  - name: eth1
+    address: 3.0.0.2/24

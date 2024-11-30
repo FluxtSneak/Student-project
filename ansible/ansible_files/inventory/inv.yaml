@@ -1,0 +1,15 @@
+---
+all:
+  children:
+    hosts:
+      hosts:
+        H1:
+          ansible_host: flo@H1
+        H2:
+          ansible_host: flo@H2
+    routers:
+      hosts:
+        R1:
+          ansible_host: flo@R1
+        R2:
+          ansible_host: flo@R2
